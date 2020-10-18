@@ -1,0 +1,12 @@
+# Documentation: https://gitlab.com/pages/plain-html
+# Moving from docs to public is redundant but necessary https://gitlab.com/gitlab-org/gitlab-ee/issues/1719#note_24326702
+pages:
+  stage: deploy
+  script:
+  - mkdir public
+  - mv *.html *.js *.css *.svg public/
+  artifacts:
+    paths:
+    - public
+  only:
+  - main
