@@ -1,0 +1,138 @@
+/* This file is part of Write or Cry: A clone of Dr. Wicked's Write or Die
+Copyright (C) 2020 Fabio Correa facorread@gmail.com
+
+https://github.com/facorread/write-or-cry
+https://gitlab.com/facorread/write-or-cry
+
+Write or Cry is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Write or Cry is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Write or Cry.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+* {
+    margin:0;
+    padding:0;
+    font-family:sans-serif;
+    border:none;
+    outline:none;
+    text-align:left;
+}
+
+body {
+    color:white;
+}
+
+#toolbar {
+    display: flex;
+    background-color: #004040;
+}
+
+#toolbar > * {
+    margin: 4px 1px;
+    text-align: center;
+}
+
+button {
+    background-color: inherit;
+    border: 1px solid #008080;
+    border-radius: 4px;
+    color: inherit;
+    font-size: inherit;
+}
+
+.toolbar-bars {
+    color: "white";
+    height: auto;
+    width: auto;
+}
+
+progress {
+    -webkit-appearance: none;
+}
+
+::-webkit-progress-bar {
+    background-color: white;
+    border-radius: 2px;
+    box-shadow: -2px 3px 2px rgba(0, 0, 0, 0.25) inset;
+}
+
+::-webkit-progress-value {
+    background-color: green;
+    border-radius: 2px;
+}
+
+#play-pause {
+    background-color: #00000000;
+    background-image: url("play_arrow.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-left: 3px;
+    padding: 0;
+    width: 24px;
+}
+
+#writing-speed-meter {
+    flex-grow: 5;
+}
+
+#timer, #word-counter {
+    margin-left: 20px;
+}
+
+#time-bar {
+    background-color: black;
+    flex-grow: 8;
+}
+
+#progress-bar {
+    background-color: black;
+    flex-grow: 20;
+    margin-right: 3px;
+}
+
+.popup {
+    border: 1px solid #008080;
+    border-radius: 4px;
+    margin-left: 5px;
+    padding: 5px;
+    position: absolute;
+    top: 30px;
+    z-index: 1;
+}
+
+.popup::before {
+    content: "";
+    position: absolute;
+/*    border: 5px solid "white";*/
+    bottom: 100%;
+    left: 5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #008080 transparent;
+}
+
+#popup-form p {
+    text-align: center;
+}
+
+#popup-table td {
+    padding: 0px 5px;
+}
+
+.number-input {
+    width: 5em;
+}
+
+a:link {
+    color: inherit;
+    text-decoration: none;
+}
