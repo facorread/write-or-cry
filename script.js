@@ -40,7 +40,7 @@ window.onload = init;
 function restoreState() {
 	if (typeof (Storage) !== "undefined") {
 		var userText = localStorage.getItem("com.fabio.writeOrDie.userText");
-		if (userText !== "") {
+		if (!isEmpty(userText)) {
 			document.getElementById("user-text").innerHTML = userText;
 		}
 		var dMode = localStorage.getItem("com.fabio.writeOrDie.darkMode");
@@ -298,9 +298,7 @@ function ticker() {
 		var printSecondsNum = ticker.seconds % 60;
 		var printSeconds = printSecondsNum.toString().padStart(2, '0');
 		document.getElementById('timer').innerHTML = printMinutes + ':' + printSeconds + ' elapsed';
-		if (ticker.idle > 0) {
-			ticker.idle++;
-		}
+		ticker.idle++;
 		if (ticker.idle >= 5) {
 			document.getElementById("writing-speed").hidden = true;
 			document.getElementById("writing-speed-meter").hidden = true;
