@@ -23,10 +23,10 @@ along with Write or Cry.  If not, see <http://www.gnu.org/licenses/>.
 function init() {
 	var renderDate = new Date();
 	darkMode.enable = true;
-	render.duration = [NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]; // Milliseconds spent writing the last 20 words. Circular buffer.
-	render.durationIndex = 0;
-	render.latestTimeStamp = renderDate.getTime();
-	render.latestWordCounter = 0;
+	keyUp.duration = [NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]; // Milliseconds spent writing the last 20 words. Circular buffer.
+	keyUp.durationIndex = 0;
+	keyUp.latestTimeStamp = renderDate.getTime();
+	keyUp.latestWordCounter = 0;
 	ticker.enabled = false;
 	ticker.idle = 0;
 	ticker.seconds = 0;
@@ -261,7 +261,7 @@ function countWords() {
 	document.getElementById("progress-bar").value = wordCounter;
 }
 
-function render() {
+function keyUp() {
 	// Hide the idle counter
 	document.getElementById("idle-counter").hidden = true;
 	document.getElementById("writing-speed").hidden = false;
@@ -273,30 +273,30 @@ function render() {
 	// Render the writing speed
 	var renderDate = new Date();
 	var timeStamp = renderDate.getTime();
-	if (wordCounter == render.latestWordCounter + 1) {
-		render.duration[render.durationIndex] = timeStamp - render.latestTimeStamp;
-		render.durationIndex++;
-		if (render.durationIndex >= render.duration.length) {
-			render.durationIndex = 0
+	if (wordCounter == keyUp.latestWordCounter + 1) {
+		keyUp.duration[keyUp.durationIndex] = timeStamp - keyUp.latestTimeStamp;
+		keyUp.durationIndex++;
+		if (keyUp.durationIndex >= keyUp.duration.length) {
+			keyUp.durationIndex = 0
 		}
-		render.latestTimeStamp = timeStamp;
+		keyUp.latestTimeStamp = timeStamp;
 		var writingSpeedElement = document.getElementById("writing-speed");
 		var meter = document.getElementById("writing-speed-meter");
-		if (render.duration.includes(NaN) || render.duration.includes(0)) {
+		if (keyUp.duration.includes(NaN) || keyUp.duration.includes(0)) {
 			writingSpeedElement.innerText = '--wpm';
 			meter.value = 0;
 		} else {
 			var sum = 0;
 			var d;
-			for (d of render.duration) {
+			for (d of keyUp.duration) {
 				sum += d;
 			}
-			var writingSpeed = Math.floor(60000 * render.duration.length / sum);
+			var writingSpeed = Math.floor(60000 * keyUp.duration.length / sum);
 			writingSpeedElement.innerText = writingSpeed + 'wpm';
 			meter.value = writingSpeed;
 		}
 	}
-	render.latestWordCounter = wordCounter;
+	keyUp.latestWordCounter = wordCounter;
 }
 
 function ticker() {
