@@ -29,76 +29,78 @@ along with Write or Cry.  If not, see <http://www.gnu.org/licenses/>.
 </head>
 
 <body>
-  <div id="toolbar">
-    <button id="play-pause" onclick="playPause()"></button>
-    <span id="writing-speed">0wpm</span>
-    <meter class="toolbar-bars" id="writing-speed-meter" high="40" low="15" max="80" min="0" optimum="80"
-      value="0"></meter>
-    <span id="idle-counter">0</span>
-    <span id="timer">0:00 elapsed</span>
-    <progress class="toolbar-bars" id="time-bar" max="600" value="0"></progress>
-    <span id="word-counter">4 words</span>
-    <progress class="toolbar-bars" id="progress-bar" max="100" value="4"></progress>
-  </div>
-  <div class="popup" id="popup">
-    <form id="popup-form">
-      <input id="dark-mode" onchange="darkMode()" type="checkbox" checked></input> &nbsp; Dark mode</label>
-      <table id="popup-table">
-        <tr>
-          <td>Speed goal:</td>
-          <td>
-            <label><input class="number-input" id="speed-goal" min="1" onchange="setSpeedGoal()" type="number"
-                value="10"></input> &nbsp;
-              words per minute (wpm)</label>
-          </td>
-          <td>
-            <label><input id="speed-lock" name="locks" type="radio" value="30" checked></input> &nbsp;
-              Lock</label>
-          </td>
-          <td>
-            <label><input id="speed-meter-checkbox" onchange="showHideMeter()" type="checkbox" checked></input> &nbsp;
-              Meter</label>
-          </td>
-        </tr>
-        <tr>
-          <td>Time goal:</td>
-          <td>
-            <label><input class="number-input" min="0" id="time-goal" type="number" onchange="setTimeGoal()"
-                value="10"></input> &nbsp;
-              minutes</label>
-          </td>
-          <td>
-            <label><input id="time-lock" name="locks" type="radio"></input> &nbsp; Lock</label>
-          </td>
-          <td>
-            <label><input id="time-bar-checkbox" onchange="showHideTimeBar()" type="checkbox" checked></input> &nbsp;
-              Progress bar</label>
-          </td>
-        </tr>
-        <tr>
-          <td>Word goal:</td>
-          <td>
-            <label><input class="number-input" id="word-goal" min="1" type="number" onchange="setWordGoal()"
-                value="100"></input> &nbsp;
-              words</label>
-          </td>
-          <td>
-            <label><input id="word-lock" name="locks" type="radio"></input> &nbsp; Lock</label>
-          </td>
-          <td>
-            <label><input id="word-bar-checkbox" onchange="showHideProgressBar()" type="checkbox" checked></input>
-              &nbsp; Progress bar</label>
-          </td>
-        </tr>
-      </table>
-      <p>Write or Cry: A clone of <a href="https://writeordie.com/">Dr. Wicked's Write or Die</a></p>
-      <p>Copyright &#169; 2020 Fabio Correa <a href="mailto:facorread@gmail.com">facorread@gmail.com</a></p>
-      <p><a href="https://github.com/facorread/write-or-cry">GitHub</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
-          href="https://gitlab.com/facorread/write-or-cry">GitLab</a></p>
-    </form>
-  </div>
-  <div id="user-text" onkeyup="render()" contenteditable="true">
-    <p>Type your text here.</p>
+  <div id="main-container">
+    <div id="toolbar">
+      <button id="play-pause" onclick="playPause()"></button>
+      <span id="writing-speed">0wpm</span>
+      <meter class="toolbar-bars" id="writing-speed-meter" high="40" low="15" max="80" min="0" optimum="80"
+        value="0"></meter>
+      <span id="idle-counter">0</span>
+      <span id="timer">0:00 elapsed</span>
+      <progress class="toolbar-bars" id="time-bar" max="600" value="0"></progress>
+      <span id="word-counter">4 words</span>
+      <progress class="toolbar-bars" id="progress-bar" max="100" value="4"></progress>
+    </div>
+    <div class="popup" id="popup">
+      <form id="popup-form">
+        <input id="dark-mode" onchange="darkMode()" type="checkbox" checked></input> &nbsp; Dark mode</label>
+        <table id="popup-table">
+          <tr>
+            <td>Speed goal:</td>
+            <td>
+              <label><input class="number-input" id="speed-goal" min="1" onchange="setSpeedGoal()" type="number"
+                  value="10"></input> &nbsp;
+                words per minute (wpm)</label>
+            </td>
+            <td>
+              <label><input id="speed-lock" name="locks" type="radio" value="30" checked></input> &nbsp;
+                Lock</label>
+            </td>
+            <td>
+              <label><input id="speed-meter-checkbox" onchange="showHideMeter()" type="checkbox" checked></input> &nbsp;
+                Meter</label>
+            </td>
+          </tr>
+          <tr>
+            <td>Time goal:</td>
+            <td>
+              <label><input class="number-input" min="0" id="time-goal" type="number" onchange="setTimeGoal()"
+                  value="10"></input> &nbsp;
+                minutes</label>
+            </td>
+            <td>
+              <label><input id="time-lock" name="locks" type="radio"></input> &nbsp; Lock</label>
+            </td>
+            <td>
+              <label><input id="time-bar-checkbox" onchange="showHideTimeBar()" type="checkbox" checked></input> &nbsp;
+                Progress bar</label>
+            </td>
+          </tr>
+          <tr>
+            <td>Word goal:</td>
+            <td>
+              <label><input class="number-input" id="word-goal" min="1" type="number" onchange="setWordGoal()"
+                  value="100"></input> &nbsp;
+                words</label>
+            </td>
+            <td>
+              <label><input id="word-lock" name="locks" type="radio"></input> &nbsp; Lock</label>
+            </td>
+            <td>
+              <label><input id="word-bar-checkbox" onchange="showHideProgressBar()" type="checkbox" checked></input>
+                &nbsp; Progress bar</label>
+            </td>
+          </tr>
+        </table>
+        <p>Write or Cry: A clone of <a href="https://writeordie.com/">Dr. Wicked's Write or Die</a></p>
+        <p>Copyright &#169; 2020 Fabio Correa <a href="mailto:facorread@gmail.com">facorread@gmail.com</a></p>
+        <p><a href="https://github.com/facorread/write-or-cry">GitHub</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
+            href="https://gitlab.com/facorread/write-or-cry">GitLab</a></p>
+      </form>
+    </div>
+    <div id="user-text" onkeyup="render()">
+      <p>Type your text here.</p>
+    </div>
   </div>
 </body>
 

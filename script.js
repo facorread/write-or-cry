@@ -23,7 +23,7 @@ along with Write or Cry.  If not, see <http://www.gnu.org/licenses/>.
 function init() {
 	var renderDate = new Date();
 	darkMode.enable = true;
-	render.duration = [NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]; // Milliseconds spent writing the last 20 words. Circular buffer.	render();
+	render.duration = [NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]; // Milliseconds spent writing the last 20 words. Circular buffer.
 	render.durationIndex = 0;
 	render.latestTimeStamp = renderDate.getTime();
 	render.latestWordCounter = 0;
@@ -31,7 +31,6 @@ function init() {
 	ticker.idle = 0;
 	ticker.seconds = 0;
 	restoreState();
-	document.getElementById("idle-counter").hidden = true;
 	setInterval(ticker, 1000);
 }
 
@@ -88,6 +87,8 @@ function restoreState() {
 		document.getElementById('word-bar-checkbox').checked = showProgressBar;
 	} /* Else Sorry! No Web Storage support... */
 	darkModeImpl();
+	document.getElementById("idle-counter").hidden = true;
+	countWords();
 }
 
 function saveState() {
@@ -158,14 +159,19 @@ function colorize() {
 function playPause() {
 	var playButton = document.getElementById('play-pause');
 	var popup = document.getElementById('popup');
+	var userText = document.getElementById('user-text');
 	if (ticker.enabled) {
 		playButton.style.backgroundImage = 'url("play_arrow.svg")';
+		userText.contentEditable = false;
+		userText.style.color = "gray";
 		ticker.enabled = false;
 		popup.hidden = false;
 	} else {
 		playButton.style.backgroundImage = 'url("pause.svg")';
 		ticker.enabled = true;
 		popup.hidden = true;
+		userText.contentEditable = true;
+		userText.style.color = darkMode.color;
 	}
 	saveState();
 }
@@ -183,8 +189,8 @@ function setSpeedGoalImpl(speedGoalFloat) {
 	var speedGoal = Math.round(speedGoalFloat);
 	speedGoalElement.value = speedGoal;
 	var meterElement = document.getElementById('writing-speed-meter');
-	meterElement.max = 1.5 * speedGoal;
-	meterElement.optimum = speedGoal;
+	meterElement.max = 1.5 * speedGoal + 2;
+	meterElement.optimum = speedGoal + 1;
 	meterElement.high = speedGoal;
 }
 
@@ -244,6 +250,17 @@ function setWordGoal() {
 	}
 }
 
+function countWords() {
+	var wordBoundaryCounter = 0;
+	var userText = document.getElementById("user-text").innerText;
+	userText.replace(/\b/g, function (a) {
+		wordBoundaryCounter++;
+	});
+	var wordCounter = wordBoundaryCounter / 2;
+	document.getElementById("word-counter").innerHTML = wordCounter + ' words';
+	document.getElementById("progress-bar").value = wordCounter;
+}
+
 function render() {
 	// Hide the idle counter
 	document.getElementById("idle-counter").hidden = true;
@@ -252,15 +269,7 @@ function render() {
 	ticker.idle = 0;
 	document.body.style.backgroundColor = darkMode.userTextBackground;
 	// Count words
-	var wordBoundaryCounter = 0;
-	var userTextElement = document.getElementById("user-text");
-	var userText = userTextElement.innerText;
-	userText.replace(/\b/g, function (a) {
-		wordBoundaryCounter++;
-	});
-	var wordCounter = wordBoundaryCounter / 2;
-	document.getElementById("word-counter").innerHTML = wordCounter + ' words';
-	document.getElementById("progress-bar").value = wordCounter;
+	countWords();
 	// Render the writing speed
 	var renderDate = new Date();
 	var timeStamp = renderDate.getTime();

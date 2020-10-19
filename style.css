@@ -27,13 +27,20 @@ along with Write or Cry.  If not, see <http://www.gnu.org/licenses/>.
     text-align:left;
 }
 
-body {
-    color:white;
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+#main-container {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
 }
 
 #toolbar {
     display: flex;
-    background-color: #004040;
+    flex: 0 1 auto;
 }
 
 #toolbar > * {
@@ -135,4 +142,16 @@ progress {
 a:link {
     color: inherit;
     text-decoration: none;
+}
+
+a:visited {
+    color: inherit;
+    text-decoration: none;
+}
+
+#user-text {
+    display: flex;
+    flex-flow: column;
+    flex: 1 1 auto;
+    overflow-y: auto;
 }
