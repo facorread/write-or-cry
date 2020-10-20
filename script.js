@@ -263,12 +263,20 @@ function countWords() {
 	return wordCounter;
 }
 
+function saveDuration(duration) {
+	keyUp.duration[keyUp.durationIndex] = duration;
+	keyUp.durationIndex++;
+	if (keyUp.durationIndex >= keyUp.duration.length) {
+		keyUp.durationIndex = 0
+	}
+}
+
 function keyUp() {
 	// Hide the idle counter
 	document.getElementById("idle-counter").hidden = true;
-	document.getElementById("writing-speed").hidden = false;
+	var writingSpeedElement = document.getElementById("writing-speed");
+	writingSpeedElement.hidden = false;
 	document.getElementById("writing-speed-meter").hidden = false;
-	ticker.idle = 0;
 	document.body.style.backgroundColor = darkMode.userTextBackground;
 	// Count words
 	var wordCounter = countWords();
@@ -276,13 +284,10 @@ function keyUp() {
 	var renderDate = new Date();
 	var timeStamp = renderDate.getTime();
 	if (wordCounter == keyUp.latestWordCounter + 1) {
-		keyUp.duration[keyUp.durationIndex] = timeStamp - keyUp.latestTimeStamp;
-		keyUp.durationIndex++;
-		if (keyUp.durationIndex >= keyUp.duration.length) {
-			keyUp.durationIndex = 0
+		if (ticker.idle < 5) {
+			saveDuration(timeStamp - keyUp.latestTimeStamp);
 		}
 		keyUp.latestTimeStamp = timeStamp;
-		var writingSpeedElement = document.getElementById("writing-speed");
 		var meter = document.getElementById("writing-speed-meter");
 		if (keyUp.duration.includes(NaN) || keyUp.duration.includes(0)) {
 			if (keyUp.ellipsis == 0) {
@@ -310,6 +315,7 @@ function keyUp() {
 			meter.value = writingSpeed;
 		}
 	}
+	ticker.idle = 0;
 	keyUp.latestWordCounter = wordCounter;
 }
 

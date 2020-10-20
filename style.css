@@ -96,12 +96,10 @@ progress {
 }
 
 #time-bar {
-    background-color: black;
     flex-grow: 8;
 }
 
 #progress-bar {
-    background-color: black;
     flex-grow: 20;
     margin-right: 3px;
 }
