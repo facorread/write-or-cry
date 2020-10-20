@@ -26,3 +26,11 @@ along with write-or-cry. If not, see <http://www.gnu.org/licenses/>.
 Visit either https://facorread.github.io/write-or-cry or https://facorread.gitlab.io/write-or-cry and choose your writing goals. Click the Play button and start typing!
 
 Write or Cry is focused on freewriting and dealing with writer's block. Its minimalistic interface avoids distraction and eye strain.
+
+# Additional resources
+
+Elbow, P. (1998). Writing with power: Techniques for mastering the writing process. Oxford University Press.
+
+Swales, J. M., & Feak, C. B. (1994). Academic writing for graduate students. Ann Arbor, MI: University of Michigan Press.
+
+Swales, J. M. (2000). English in today's research world: A writing guide. University of Michigan, Ann Arbor, MI: University of Michigan Press.

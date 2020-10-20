@@ -26,7 +26,7 @@ function init() {
 	keyUp.duration = [NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]; // Milliseconds spent writing the last 20 words. Circular buffer.
 	keyUp.durationIndex = 0;
 	keyUp.latestTimeStamp = renderDate.getTime();
-	keyUp.latestWordCounter = 0;
+	keyUp.ellipsis = 0;
 	ticker.enabled = false;
 	ticker.idle = 0;
 	ticker.seconds = 0;
@@ -35,6 +35,7 @@ function init() {
 }
 
 window.onload = init;
+window.onunload = saveState;
 
 function restoreState() {
 	if (typeof (Storage) !== "undefined") {
@@ -88,7 +89,7 @@ function restoreState() {
 	} /* Else Sorry! No Web Storage support... */
 	darkModeImpl();
 	document.getElementById("idle-counter").hidden = true;
-	countWords();
+	keyUp.latestWordCounter = countWords();
 }
 
 function saveState() {
@@ -259,6 +260,7 @@ function countWords() {
 	var wordCounter = wordBoundaryCounter / 2;
 	document.getElementById("word-counter").innerHTML = wordCounter + ' words';
 	document.getElementById("progress-bar").value = wordCounter;
+	return wordCounter;
 }
 
 function keyUp() {
@@ -269,7 +271,7 @@ function keyUp() {
 	ticker.idle = 0;
 	document.body.style.backgroundColor = darkMode.userTextBackground;
 	// Count words
-	countWords();
+	var wordCounter = countWords();
 	// Render the writing speed
 	var renderDate = new Date();
 	var timeStamp = renderDate.getTime();
@@ -283,7 +285,19 @@ function keyUp() {
 		var writingSpeedElement = document.getElementById("writing-speed");
 		var meter = document.getElementById("writing-speed-meter");
 		if (keyUp.duration.includes(NaN) || keyUp.duration.includes(0)) {
-			writingSpeedElement.innerText = '--wpm';
+			if (keyUp.ellipsis == 0) {
+				writingSpeedElement.innerHTML = '&centerdot;..wpm';
+			} else if (keyUp.ellipsis == 1) {
+				writingSpeedElement.innerHTML = '.&centerdot;.wpm';
+			} else if (keyUp.ellipsis == 2) {
+				writingSpeedElement.innerHTML = '..&centerdot;wpm';
+			} else {
+				writingSpeedElement.innerHTML = '...wpm';
+			}
+			keyUp.ellipsis += 1;
+			if (!(keyUp.ellipsis < 3)) {
+				keyUp.ellipsis = 0;
+			}
 			meter.value = 0;
 		} else {
 			var sum = 0;
