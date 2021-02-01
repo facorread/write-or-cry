@@ -272,14 +272,16 @@ function saveDuration(duration) {
 }
 
 function keyUp() {
-	// Hide the idle counter
-	document.getElementById("idle-counter").hidden = true;
 	var writingSpeedElement = document.getElementById("writing-speed");
-	writingSpeedElement.hidden = false;
-	document.getElementById("writing-speed-meter").hidden = false;
-	document.body.style.backgroundColor = darkMode.userTextBackground;
 	// Count words
 	var wordCounter = countWords();
+	if (wordCounter != keyUp.latestWordCounter) {
+		// Hide the idle counter
+		document.getElementById("idle-counter").hidden = true;
+		writingSpeedElement.hidden = false;
+		document.getElementById("writing-speed-meter").hidden = false;
+		document.body.style.backgroundColor = darkMode.userTextBackground;
+	}
 	// Render the writing speed
 	var renderDate = new Date();
 	var timeStamp = renderDate.getTime();
@@ -315,29 +317,46 @@ function keyUp() {
 			meter.value = writingSpeed;
 		}
 	}
-	ticker.idle = 0;
-	keyUp.latestWordCounter = wordCounter;
+	if (wordCounter != keyUp.latestWordCounter) {
+		ticker.idle = 0;
+		keyUp.latestWordCounter = wordCounter;
+		if (wordCounter % 100 == 0) {
+			saveState();
+		}
+	}
+}
+
+function printTime() {
+	document.getElementById("time-bar").value = ticker.seconds;
+	var printMinutes = Math.floor(ticker.seconds / 60);
+	var printSecondsNum = ticker.seconds % 60;
+	var printSeconds = printSecondsNum.toString().padStart(2, '0');
+	document.getElementById('timer').innerHTML = printMinutes + ':' + printSeconds + ' elapsed';
 }
 
 function ticker() {
 	if (ticker.enabled) {
-		ticker.seconds++;
-		document.getElementById("time-bar").value = ticker.seconds;
-		var printMinutes = Math.floor(ticker.seconds / 60);
-		var printSecondsNum = ticker.seconds % 60;
-		var printSeconds = printSecondsNum.toString().padStart(2, '0');
-		document.getElementById('timer').innerHTML = printMinutes + ':' + printSeconds + ' elapsed';
 		ticker.idle++;
 		if (ticker.idle >= 5) {
-			document.getElementById("writing-speed").hidden = true;
-			document.getElementById("writing-speed-meter").hidden = true;
 			var idleCounterElement = document.getElementById("idle-counter");
+			if (idleCounterElement.hidden) {
+				document.getElementById("writing-speed").hidden = true;
+				document.getElementById("writing-speed-meter").hidden = true;
+				idleCounterElement.hidden = false;
+				ticker.seconds -= ticker.idle;
+				if (ticker.seconds < 0) {
+					ticker.seconds = 0;
+				}
+				printTime();
+			}
 			idleCounterElement.innerText = ticker.idle + ' seconds idle';
-			idleCounterElement.hidden = false;
 			colorize();
-		}
-		if (ticker.seconds % 60 == 0) {
-			saveState();
+		} else {
+			ticker.seconds++;
+			printTime();
+			if (ticker.seconds % 60 == 0) {
+				saveState();
+			}
 		}
 	}
 }
